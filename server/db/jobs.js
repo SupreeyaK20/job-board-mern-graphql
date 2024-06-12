@@ -9,3 +9,7 @@ export async function getJobs() {
 export async function getJobById(id) {
   return await JOB().first().where({ id });
 }
+
+export async function getJobsByCompany(companyId) {
+  return await JOB().select().where({ companyId });
+}

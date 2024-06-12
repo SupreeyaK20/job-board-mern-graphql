@@ -30,14 +30,14 @@ function JobList({ jobs }) {
       style={{
         width: "50%",
         margin: "auto",
-        top: 50,
+        top: 20,
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
       }}
     >
       <Table
         dataSource={jobs}
         columns={columns}
-        pagination={{ pageSize: 10 }}
+        pagination={{ pageSize: 5 }}
       />
     </Card>
   );

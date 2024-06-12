@@ -1,5 +1,5 @@
 import { getCompany } from "./db/companies.js";
-import { getJobById, getJobs } from "./db/jobs.js";
+import { getJobById, getJobs, getJobsByCompany } from "./db/jobs.js";
 
 export const resolvers = {
   Query: {
@@ -7,10 +7,15 @@ export const resolvers = {
     jobs: () => getJobs(),
     company: (_, { id }) => getCompany(id),
   },
+  
   Job: {
     company: (job) => getCompany(job.companyId),
     createdDate: (job) => convertToISO(job.createdAt),
   },
+
+  Company: {
+    jobs: (company) => getJobsByCompany(company.id),
+  }
 };
 
 function convertToISO(date) {

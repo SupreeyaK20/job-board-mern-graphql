@@ -35,6 +35,12 @@ export const getCompanyById = gql`
       id
       name
       description
+      jobs {
+        id
+        title
+        description
+        createdDate
+      }
     }
   }
 `;
