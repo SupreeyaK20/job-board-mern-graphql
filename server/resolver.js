@@ -1,11 +1,26 @@
-import { getCompany } from "./db/companies.js";
-import { getJobById, getJobs, getJobsByCompany } from "./db/jobs.js";
+import { convertToISO, notFoundError } from "./helpers/helper.js";
+import { getCompany } from "./services/companies.js";
+import { getJobById, getJobs, getJobsByCompany } from "./services/jobs.js";
 
 export const resolvers = {
   Query: {
-    job: (_, { id }) => getJobById(id),
+    job: async(_, { id }) => {
+      const job = await getJobById(id);
+      if (!job) {
+        throw notFoundError('No Job found with id ' + id);
+      }
+      return job;
+    },
+
     jobs: () => getJobs(),
-    company: (_, { id }) => getCompany(id),
+
+    company: async(_, { id }) => {
+      const company = await getCompany(id);
+      if (!company) {
+        throw notFoundError('No Company found with id ' + id);
+      }
+      return company;
+    },
   },
   
   Job: {
@@ -18,6 +33,3 @@ export const resolvers = {
   }
 };
 
-function convertToISO(date) {
-  return date.slice(0, "YYYY-MM-DD".length);
-}

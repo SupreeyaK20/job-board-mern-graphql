@@ -12,7 +12,7 @@ function CompanyPage() {
   const { company, loading, error } = useCompany(companyId);
 
   if (error) {
-    return <div className="has-text-danger">Data unavailable</div>;
+    return <Title type="danger" level={3}>Data unavailable </Title>;
   }
 
   return (
@@ -37,12 +37,12 @@ function CompanyPage() {
               boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
             }}
           >
-            <Title level={4}>{company.name}</Title>
-            <Text level={4}>{company.description}</Text>
+            <Title level={4}>{company?.name}</Title>
+            <Text level={4}>{company?.description}</Text>
           </Card>
           <br />
           <br />
-          <JobList jobs={company.jobs} />
+          <JobList jobs={company?.jobs} />
         </>
       )}
     </>
