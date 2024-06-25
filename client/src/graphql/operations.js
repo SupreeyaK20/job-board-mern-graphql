@@ -44,3 +44,11 @@ export const getCompanyById = gql`
     }
   }
 `;
+
+export const createJob = gql`
+  mutation createJob($input: CreateJob!) {
+    createJob(input: $input) {
+      id
+    }
+  }
+`;

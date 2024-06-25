@@ -4,6 +4,7 @@ import HomePage from "./pages/homePage";
 import JobPage from "./pages/jobPage";
 import CompanyPage from "./pages/companyPage";
 import NavBar from "./components/navBar";
+import './App.css'
 
 function App() {
 

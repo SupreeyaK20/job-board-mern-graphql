@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Flex,
   Layout,
@@ -8,22 +8,27 @@ import {
   Typography,
   theme,
   Button,
+  Modal,
 } from "antd";
 import {
-  DownOutlined,
   LogoutOutlined,
+  PlusOutlined,
   SettingOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 
 import { Link, useNavigate } from "react-router-dom";
+import CreateJobPage from "../pages/createJobPage";
+import { useJobs } from "../graphql/hooks";
 const { Header } = Layout;
 const { Title } = Typography;
 
 const HeaderLayout = ({ collapsed, setCollapsed }) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const userData = JSON.parse(sessionStorage.getItem("user") || "{}");
   const { username } = userData;
   const avatarText = username ? username.charAt(0).toUpperCase() : "";
+  const { refetch } = useJobs();
 
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -59,6 +64,14 @@ const HeaderLayout = ({ collapsed, setCollapsed }) => {
     borderRadius: 6,
   };
 
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <Header
       style={{
@@ -78,12 +91,32 @@ const HeaderLayout = ({ collapsed, setCollapsed }) => {
           Hello, {username}
         </Title>
 
-        <Dropdown overlay={<Menu items={items} />} trigger={["click"]}>
-          <Button type="text" style={{ color: "white" }}>
-            <DownOutlined />
+        <Flex gap="middle">
+          <Button icon={<PlusOutlined />} onClick={showModal}>
+            Create Job
           </Button>
-        </Dropdown>
+
+          <Dropdown overlay={<Menu items={items} />} trigger={["click"]}>
+            <Button type="text" style={{ color: "white" }}>
+              <Avatar
+                style={{
+                  backgroundColor: "#87d068",
+                }}
+                icon={<UserOutlined />}
+              />
+            </Button>
+          </Dropdown>
+        </Flex>
       </Flex>
+
+      <Modal
+        title="Create Job"
+        open={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <CreateJobPage setIsModalVisible={setIsModalVisible} refetchJobs={refetch}/>
+      </Modal>
     </Header>
   );
 };

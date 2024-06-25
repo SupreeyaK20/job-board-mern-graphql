@@ -39,10 +39,10 @@ function JobPage() {
           <Card
             title={
               <Flex gap={10} align="center" justify="space-between" horizontal>
-                <Title level={4}>{job.title}</Title>
+                <Title level={4}>{job?.title}</Title>
                 <Text level={4}>
-                  <Link to={`/companies/${job.company.id}`}>
-                    {job.company.name}
+                  <Link to={`/companies/${job?.company.id}`}>
+                    {job?.company.name}
                   </Link>
                 </Text>
               </Flex>
@@ -62,7 +62,7 @@ function JobPage() {
                 />
               }
               title={`Posted: ${formatDate(job.createdDate)}`}
-              description={job.description}
+              description={job?.description}
             />
           </Card>
         </>

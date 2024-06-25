@@ -1,9 +1,14 @@
 import { useQuery, useMutation } from "@apollo/client";
-import { getAllJobs, getCompanyById, getJobById } from "./operations";
+import {
+  createJob,
+  getAllJobs,
+  getCompanyById,
+  getJobById,
+} from "./operations";
 
 export const useJobs = () => {
-  const { data, error, loading } = useQuery(getAllJobs);
-  return { jobs: data?.jobs, loading, error: Boolean(error) };
+  const { data, error, loading, refetch } = useQuery(getAllJobs);
+  return { jobs: data?.jobs, loading, error: Boolean(error), refetch };
 };
 
 export const useJob = (id) => {
@@ -18,4 +23,14 @@ export const useCompany = (id) => {
     variables: { id },
   });
   return { company: data?.company, loading, error: Boolean(error) };
+};
+
+export const useCreateJob = () => {
+  const [createJobMutation, { loading }] = useMutation(createJob);
+
+  const createNewJob = (title, description) => {
+    return createJobMutation({ variables: { input: { title, description } } });
+  };
+
+  return { createNewJob, loading };
 };

@@ -1,6 +1,6 @@
 import { convertToISO, notFoundError } from "./helpers/helper.js";
 import { getCompany } from "./services/companies.js";
-import { getJobById, getJobs, getJobsByCompany } from "./services/jobs.js";
+import { createJob, getJobById, getJobs, getJobsByCompany } from "./services/jobs.js";
 
 export const resolvers = {
   Query: {
@@ -21,6 +21,12 @@ export const resolvers = {
       }
       return company;
     },
+  },
+
+  Mutation:{
+    createJob: (_arg, { input: { title, description } }) => {
+      return createJob({ companyId: "FjcJCHJALA4i", title, description})
+    }
   },
   
   Job: {
