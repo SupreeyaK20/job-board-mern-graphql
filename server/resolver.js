@@ -1,4 +1,4 @@
-import { convertToISO, notFoundError } from "./helpers/helper.js";
+import { convertToISO, notFoundError, unauthorizedError } from "./helpers/helper.js";
 import { getCompany } from "./services/companies.js";
 import { createJob, getJobById, getJobs, getJobsByCompany } from "./services/jobs.js";
 
@@ -24,8 +24,11 @@ export const resolvers = {
   },
 
   Mutation:{
-    createJob: (_arg, { input: { title, description } }) => {
-      return createJob({ companyId: "FjcJCHJALA4i", title, description})
+    createJob: (_arg, { input: { title, description } }, { user }) => {
+      if(!user){
+        throw unauthorizedError('Missing Authentication' + user);
+      }
+      return createJob({ companyId: user.companyId, title, description})
     }
   },
   

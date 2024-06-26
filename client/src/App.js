@@ -5,6 +5,7 @@ import JobPage from "./pages/jobPage";
 import CompanyPage from "./pages/companyPage";
 import NavBar from "./components/navBar";
 import './App.css'
+import LoginPage from "./pages/loginPage";
 
 function App() {
 
@@ -16,6 +17,8 @@ function App() {
         <Route path="/companies/:companyId" element={<CompanyPage />} />
         <Route path="/jobs" element={<CreateJobPage />} />
         <Route path="/jobs/:jobId" element={<JobPage />} />
+        <Route path="/login" element={<LoginPage />} />
+
       </Routes>
     </>
   );

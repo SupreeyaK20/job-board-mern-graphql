@@ -72,6 +72,7 @@ const HeaderLayout = ({ collapsed, setCollapsed }) => {
     setIsModalVisible(false);
   };
 
+  const isLoggedIn = true;
   return (
     <Header
       style={{
@@ -88,25 +89,30 @@ const HeaderLayout = ({ collapsed, setCollapsed }) => {
         align="center"
       >
         <Title level={5} style={{ margin: 0, color: "white", marginLeft: 16 }}>
-          Hello, {username}
+          Hello {username}
         </Title>
-
-        <Flex gap="middle">
-          <Button icon={<PlusOutlined />} onClick={showModal}>
-            Create Job
-          </Button>
-
-          <Dropdown overlay={<Menu items={items} />} trigger={["click"]}>
-            <Button type="text" style={{ color: "white" }}>
-              <Avatar
-                style={{
-                  backgroundColor: "#87d068",
-                }}
-                icon={<UserOutlined />}
-              />
+        {isLoggedIn ? (
+          <Flex gap="middle">
+            <Button icon={<PlusOutlined />} onClick={showModal}>
+              Create Job
             </Button>
-          </Dropdown>
-        </Flex>
+
+            <Dropdown overlay={<Menu items={items} />} trigger={["click"]}>
+              <Button type="text" style={{ color: "white" }}>
+                <Avatar
+                  style={{
+                    backgroundColor: "#87d068",
+                  }}
+                  icon={<UserOutlined />}
+                />
+              </Button>
+            </Dropdown>
+          </Flex>
+        ) : (
+          <Button icon={<PlusOutlined />}>
+            <Link to="/login">Log In</Link>
+          </Button>
+        )}
       </Flex>
 
       <Modal
@@ -115,7 +121,10 @@ const HeaderLayout = ({ collapsed, setCollapsed }) => {
         onCancel={handleCancel}
         footer={null}
       >
-        <CreateJobPage setIsModalVisible={setIsModalVisible} refetchJobs={refetch}/>
+        <CreateJobPage
+          setIsModalVisible={setIsModalVisible}
+          refetchJobs={refetch}
+        />
       </Modal>
     </Header>
   );

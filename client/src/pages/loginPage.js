@@ -1,24 +1,30 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, message } from 'antd';
-import 'antd/dist/antd.css';
+import { Form, Input, Button, message, Card } from 'antd';
+import { login } from '../graphql/auth/auth';
+
 
 const LoginPage = () => {
   const [form] = Form.useForm();
   const [error, setError] = useState(false);
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     console.log('Form values:', values);
 
-    if (values.email !== 'test' || values.password !== '123') {
-      setError(true);
-      message.error('Login failed');
-    } else {
-      setError(false);
+    const user = await login(values.email, values.password)
+      console.log("User ==", user);
+    ;
       message.success('Login successful');
-    }
   };
 
   return (
+    <Card
+      style={{
+        width: "50%",
+        margin: "auto",
+        top: 20,
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+      }}
+    >
     <Form
       form={form}
       onFinish={handleSubmit}
@@ -60,6 +66,7 @@ const LoginPage = () => {
         </Button>
       </Form.Item>
     </Form>
+    </Card>
   );
 };
 
