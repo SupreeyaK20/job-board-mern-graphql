@@ -21,10 +21,27 @@ export async function login(email, password) {
   }
   const { token } = await response.json();
   localStorage.setItem(ACCESS_TOKEN_KEY, token);
-  // return getUserFromToken(token);
+//   localStorage.setItem("isLoggedIn", true);
+
+  return getUserFromToken(token);
 }
 
+export function getUser() {
+  const token = getAccessToken();
+  if (!token) {
+    return null;
+  }
+  return getUserFromToken(token);
+}
 
-function getUserFromToken(){
-    
+export function logout() {
+  localStorage.removeItem(ACCESS_TOKEN_KEY);
+}
+
+function getUserFromToken(token) {
+  const decodedToken = jwtDecode(token);
+  return {
+    id: decodedToken.id,
+    email: decodedToken.email,
+  };
 }

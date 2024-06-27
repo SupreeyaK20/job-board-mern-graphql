@@ -3,17 +3,20 @@ import { Form, Input, Button, message, Card } from 'antd';
 import { login } from '../graphql/auth/auth';
 
 
-const LoginPage = () => {
+const LoginPage = ({ onLogin }) => {
   const [form] = Form.useForm();
   const [error, setError] = useState(false);
 
   const handleSubmit = async (values) => {
-    console.log('Form values:', values);
-
-    const user = await login(values.email, values.password)
-      console.log("User ==", user);
-    ;
-      message.success('Login successful');
+    const user = await login(values.email, values.password);
+    if (user) {
+      onLogin(user);
+      setError(false);
+      message.success("Login Successful!");
+    } else {
+      setError(true);
+      message.error("Login Failed!");
+    }
   };
 
   return (
@@ -51,14 +54,6 @@ const LoginPage = () => {
       >
         <Input.Password />
       </Form.Item>
-
-      {error && (
-        <div className="message is-danger">
-          <p className="message-body">
-            Login failed
-          </p>
-        </div>
-      )}
 
       <Form.Item>
         <Button type="primary" htmlType="submit">

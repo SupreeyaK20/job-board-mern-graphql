@@ -6,7 +6,6 @@ import {
   Avatar,
   Dropdown,
   Typography,
-  theme,
   Button,
   Modal,
 } from "antd";
@@ -20,33 +19,23 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import CreateJobPage from "../pages/createJobPage";
 import { useJobs } from "../graphql/hooks";
+import { logout } from "../graphql/auth/auth";
 const { Header } = Layout;
 const { Title } = Typography;
 
-const HeaderLayout = ({ collapsed, setCollapsed }) => {
+const NavBar = ({ user, onLogout }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const userData = JSON.parse(sessionStorage.getItem("user") || "{}");
-  const { username } = userData;
-  const avatarText = username ? username.charAt(0).toUpperCase() : "";
   const { refetch } = useJobs();
-
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
-
   const navigate = useNavigate();
 
   const handleLogout = () => {
     console.log("Clicked..");
+    logout();
+    onLogout();
   };
 
-  const getRandomColor = () => {
-    const letters = "0123456789ABCDEF";
-    let color = "#";
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
+  const handleLoginClick = () => {
+    navigate("/login");
   };
 
   const items = [
@@ -72,7 +61,7 @@ const HeaderLayout = ({ collapsed, setCollapsed }) => {
     setIsModalVisible(false);
   };
 
-  const isLoggedIn = true;
+  const isLoggedIn = Boolean(user);
   return (
     <Header
       style={{
@@ -89,7 +78,7 @@ const HeaderLayout = ({ collapsed, setCollapsed }) => {
         align="center"
       >
         <Title level={5} style={{ margin: 0, color: "white", marginLeft: 16 }}>
-          Hello {username}
+          Hello {user?.email}
         </Title>
         {isLoggedIn ? (
           <Flex gap="middle">
@@ -109,7 +98,7 @@ const HeaderLayout = ({ collapsed, setCollapsed }) => {
             </Dropdown>
           </Flex>
         ) : (
-          <Button icon={<PlusOutlined />}>
+          <Button icon={<PlusOutlined />} onClick={handleLoginClick}>
             <Link to="/login">Log In</Link>
           </Button>
         )}
@@ -130,4 +119,4 @@ const HeaderLayout = ({ collapsed, setCollapsed }) => {
   );
 };
 
-export default HeaderLayout;
+export default NavBar;
