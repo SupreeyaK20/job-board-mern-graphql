@@ -1,37 +1,81 @@
-import { convertToISO, notFoundError, unauthorizedError } from "./helpers/helper.js";
+import {
+  convertToISO,
+  notFoundError,
+  unauthorizedError,
+} from "./helpers/helper.js";
 import { getCompany } from "./services/companies.js";
-import { createJob, getJobById, getJobs, getJobsByCompany } from "./services/jobs.js";
+import {
+  createJob,
+  deleteJob,
+  getJobById,
+  getJobs,
+  getJobsByCompany,
+  updateJob,
+} from "./services/jobs.js";
 
 export const resolvers = {
   Query: {
-    job: async(_, { id }) => {
+    job: async (_, { id }) => {
       const job = await getJobById(id);
       if (!job) {
-        throw notFoundError('No Job found with id ' + id);
+        throw notFoundError("No Job found with id " + id);
       }
       return job;
     },
 
     jobs: () => getJobs(),
 
-    company: async(_, { id }) => {
+    company: async (_, { id }) => {
       const company = await getCompany(id);
       if (!company) {
-        throw notFoundError('No Company found with id ' + id);
+        throw notFoundError("No Company found with id " + id);
       }
       return company;
     },
   },
 
-  Mutation:{
+  Mutation: {
     createJob: (_arg, { input: { title, description } }, { user }) => {
-      if(!user){
-        throw unauthorizedError('Missing Authentication' + user);
+      if (!user) {
+        throw unauthorizedError("Missing Authentication " + user);
       }
-      return createJob({ companyId: user.companyId, title, description})
-    }
+      return createJob({ companyId: user.companyId, title, description });
+    },
+
+    updateJob: async (
+      _arg,
+      { input: { id, title, description } },
+      { user }
+    ) => {
+      if (!user) {
+        throw unauthorizedError("Missing Authentication " + user);
+      }
+
+      const job = await updateJob({
+        id,
+        companyId: user.companyId,
+        title,
+        description,
+      });
+      if (!job) {
+        throw notFoundError("No Job Found " + id);
+      }
+      return job;
+    },
+
+    deleteJob: async (_root, { id }, { user }) => {
+      if (!user) {
+        throw unauthorizedError("Missing authentication " + user);
+      }
+
+      const job = await deleteJob(id, user.companyId);
+      if (!job) {
+        throw notFoundError("No Job found with id " + id);
+      }
+      return job;
+    },
   },
-  
+
   Job: {
     company: (job) => getCompany(job.companyId),
     createdDate: (job) => convertToISO(job.createdAt),
@@ -39,6 +83,5 @@ export const resolvers = {
 
   Company: {
     jobs: (company) => getJobsByCompany(company.id),
-  }
+  },
 };
-
