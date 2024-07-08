@@ -27,3 +27,30 @@ export async function createJob({companyId, title, description}) {
   await JOB().insert(job);
   return job;
 }
+
+export async function updateJob({ id, companyId, title, description }) {
+  const job = await JOB().first().where({ id, companyId });
+  if (!job) {
+    return null
+  }
+
+  const updatedJobData = {
+    title,
+    description,
+    createdAt: new Date().toISOString()
+  };
+
+  await JOB().update(updatedJobData).where({ id });
+  return { ...job, ...updatedJobData };
+}
+
+export async function deleteJob(id, companyId) {
+  const job = await JOB().first().where({ id, companyId });
+  if (!job) {
+    return null
+  }
+  
+  await JOB().delete().where({ id });
+  return job;
+}
+
