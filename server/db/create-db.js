@@ -1,4 +1,4 @@
-
+// Run create-db.js file to change in database
 import { connection } from '../services/connection.js';
 
 const { schema } = connection;
@@ -69,16 +69,16 @@ await connection.table('job').insert([
 
 await connection.table('user').insert([
   {
-    id: 'AcMJpL7b413Z',
+    id: '1',
     companyId: 'FjcJCHJALA4i',
-    email: 'alice@facegle.io',
-    password: 'alice123',
+    email: 'user1@comapny.com',
+    password: '12345678',
   },
   {
-    id: 'BvBNW636Z89L',
+    id: '2',
     companyId: 'Gu7QW9LcnF5d',
-    email: 'bob@goobook.co',
-    password: 'bob123',
+    email: 'user2@comapny.com',
+    password: '12345678',
   },
 ]);
 

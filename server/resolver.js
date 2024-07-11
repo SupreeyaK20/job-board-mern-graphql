@@ -77,7 +77,9 @@ export const resolvers = {
   },
 
   Job: {
-    company: (job) => getCompany(job.companyId),
+    company: (job, __, { companyLoader }) => {
+      return companyLoader.load(job.companyId)
+    },
     createdDate: (job) => convertToISO(job.createdAt),
   },
 
