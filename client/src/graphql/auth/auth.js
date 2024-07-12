@@ -42,5 +42,6 @@ function getUserFromToken(token) {
   return {
     id: decodedToken.id,
     email: decodedToken.email,
+    companyId: decodedToken.companyId
   };
 }

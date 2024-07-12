@@ -7,7 +7,7 @@ import JobList from "../components/jobList";
 import Loader from "../components/loader";
 const { Title, Text } = Typography;
 
-function CompanyPage() {
+function CompanyPage({ user }) {
   const { companyId } = useParams();
   const { company, loading, error } = useCompany(companyId);
 
@@ -42,7 +42,7 @@ function CompanyPage() {
           </Card>
           <br />
           <br />
-          <JobList jobs={company?.jobs} />
+          <JobList jobs={company?.jobs} user={user} />
         </>
       )}
     </>

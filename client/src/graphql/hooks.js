@@ -1,6 +1,7 @@
 import { useQuery, useMutation } from "@apollo/client";
 import {
   createJob,
+  deleteJob,
   getAllJobs,
   getCompanyById,
   getJobById,
@@ -33,4 +34,12 @@ export const useCreateJob = () => {
   };
 
   return { createNewJob, loading };
+};
+
+export const useDeleteJob = () => {
+  const [deleteJobMutation, { loading }] = useMutation(deleteJob);
+  const deleteJobById = (id) => {
+    return deleteJobMutation({ variables: { id } });
+  };
+  return { deleteJobById, loading };
 };

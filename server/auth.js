@@ -17,7 +17,7 @@ export async function handleLogin(req, res) {
   if (!user || user.password !== password) {
     res.sendStatus(401);
   } else {
-    const userInfo = { id: user.id, email: user.email };
+    const userInfo = { id: user.id, email: user.email, companyId: user.companyId };
     const token = jwt.sign(userInfo, secret);
     res.json({ token });  
   }

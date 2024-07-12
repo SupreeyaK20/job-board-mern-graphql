@@ -38,13 +38,11 @@ export const getCompanyById = gql`
       name
       description
       jobs {
-        id
-        title
-        description
-        createdDate
+        ...JobDetail
       }
     }
   }
+  ${jobDetailFragment}
 `;
 
 export const createJob = gql`
@@ -54,4 +52,12 @@ export const createJob = gql`
     }
   }
   ${jobDetailFragment}
+`;
+
+export const deleteJob = gql`
+  mutation DeleteJob($id: ID!) {
+    deleteJob(id: $id) {
+      title
+    }
+  }
 `;

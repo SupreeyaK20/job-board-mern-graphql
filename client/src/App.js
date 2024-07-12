@@ -28,8 +28,8 @@ function App() {
       <NavBar user={user} onLogout={handleLogout}/>
       <Routes>
         <Route path="/login" element={<LoginPage onLogin={handleLogin}/>} />
-        <Route index path="/" element={<HomePage />} />
-        <Route path="/companies/:companyId" element={<CompanyPage />} />
+        <Route index path="/" element={<HomePage user={user}/>} />
+        <Route path="/companies/:companyId" element={<CompanyPage user={user}/>} />
         <Route path="/jobs" element={<CreateJobPage />} />
         <Route path="/jobs/:jobId" element={<JobPage />} />
 

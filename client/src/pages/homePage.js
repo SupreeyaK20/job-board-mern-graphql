@@ -8,9 +8,9 @@ const { Title } = Typography;
 
 const JOBS_PER_PAGE = 7;
 
-function HomePage() {
+function HomePage({ user }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const { jobs, loading, error } = useJobs();
+  const { jobs, loading, error, refetch } = useJobs();
 
   //   const totalPages = Math.ceil(jobs.totalCount / JOBS_PER_PAGE);
   if (error) {
@@ -34,7 +34,7 @@ function HomePage() {
               onPageChange={setCurrentPage}
             /> 
           */}
-          <JobList jobs={jobs} />
+          <JobList jobs={jobs} user={user} refetch={refetch}/>
         </>
       )}
     </>
