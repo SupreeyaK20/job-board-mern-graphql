@@ -21,7 +21,6 @@ export async function login(email, password) {
   }
   const { token } = await response.json();
   localStorage.setItem(ACCESS_TOKEN_KEY, token);
-//   localStorage.setItem("isLoggedIn", true);
 
   return getUserFromToken(token);
 }

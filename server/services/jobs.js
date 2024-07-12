@@ -15,7 +15,7 @@ export async function getJobsByCompany(companyId) {
   return await JOB().select().where({ companyId });
 }
 
-export async function createJob({companyId, title, description}) {
+export async function createJob({ companyId, title, description }) {
   const job= {
     id: uniqueId(),
     companyId,

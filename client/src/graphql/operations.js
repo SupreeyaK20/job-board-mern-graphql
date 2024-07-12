@@ -48,9 +48,10 @@ export const getCompanyById = gql`
 `;
 
 export const createJob = gql`
-  mutation createJob($input: CreateJob!) {
+  mutation createJob($input: CreateJobInput!) {
     createJob(input: $input) {
-      id
+      ...JobDetail
     }
   }
+  ${jobDetailFragment}
 `;

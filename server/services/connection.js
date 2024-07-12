@@ -10,10 +10,10 @@ export const connection = knex({
 
 connection.on('query', ({ sql, bindings }) => {
   const query = connection.raw(sql, bindings).toQuery();
-  console.log('[db]', query);
+  // console.log('[db]', query);
 });
 
-
+// Below code for chnages 
 // import knex from 'knex';
 // import path from 'path';
 // import { fileURLToPath } from 'url';

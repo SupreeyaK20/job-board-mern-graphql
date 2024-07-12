@@ -5,7 +5,7 @@ import { expressMiddleware as apolloMiddleware } from '@apollo/server/express4'
 import { authMiddleware, handleLogin } from './auth.js';
 import { readFile } from 'node:fs/promises'
 import { resolvers } from './resolver.js'
-import { createUserLoader } from './services/users.js';
+import { getUser } from './services/users.js';
 import { createCompanyLoader } from './services/companies.js';
 
 const PORT = 5000;
@@ -21,7 +21,7 @@ async function getContext({ req }) {
   const companyLoader = createCompanyLoader()
   const context = { companyLoader }
     if (req.auth) {
-      context.user = await createUserLoader(req.auth.id);
+      context.user = await getUser(req.auth.id);
     }
     return context;
   }
